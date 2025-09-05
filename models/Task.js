@@ -2,7 +2,15 @@ import { ObjectId } from "mongodb"
 
 export class Task {
 constructor(data) {
-  this._id = data._id ? new (data._id) : undefined
+  if (data._id) {
+    if (typeof data._id === "string") {
+      this._id = new ObjectId(data._id)
+    } else {
+      this._id = data._id
+    }
+  } else {
+    this._id = undefined
+  }
   this.title = data.title
   this.description = data.description || ""
   this.status = data.status || "pending"
